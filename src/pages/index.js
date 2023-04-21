@@ -9,6 +9,7 @@ import {
   CardContent,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 
@@ -343,31 +344,34 @@ export const Home = () => {
     setError("");
   }
   const theme = useTheme();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
-        height: "100vh",
+        minHeight: "100vh",
         justifyContent: "center",
         alignItems: "center",
         bgcolor: theme.palette.background.default,
-        py: 3,
       }}
     >
       <Card
         elevation={3}
         sx={{
           width: "100%",
-          maxWidth: "800px",
+          maxWidth: { xs: "100%", md: "800px" },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          p: 3,
+          p: { md: 3, xs: 1 },
         }}
       >
         <CardContent
           sx={{
+            width: "100%",
+            height: "fit-content",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -378,7 +382,7 @@ export const Home = () => {
             Welcome to {appName || " Project1 for Ethereum 101"}!
           </Typography>
           {!isWallectConnected && (
-            <Typography variant="body1">
+            <Typography variant={isSmallScreen ? "body2" : "body1"}>
               Please log in to use this app!{" "}
             </Typography>
           )}
@@ -393,7 +397,9 @@ export const Home = () => {
               : "Connect to Metamask 🔑"}
           </Button>
           {isWallectConnected && (
-            <Typography variant="body1">Your address: {userWallet}</Typography>
+            <Typography variant={isSmallScreen ? "body2" : "body1"}>
+              Your address: {userWallet}
+            </Typography>
           )}
           {error && (
             <Typography variant="error" color="error">
@@ -418,7 +424,7 @@ export const Home = () => {
                 gap: 1,
               }}
             >
-              <Typography>
+              <Typography variant={isSmallScreen ? "body2" : "body1"}>
                 Your current withdraw threshold is {currentThreshold} ETH
               </Typography>
 
@@ -455,7 +461,7 @@ export const Home = () => {
                 gap: 1,
               }}
             >
-              <Typography>
+              <Typography variant={isSmallScreen ? "body2" : "body1"}>
                 Your current balance is {currentBalance} ETH
               </Typography>
               {currentThreshold == 0.0 && (
@@ -524,7 +530,9 @@ export const Home = () => {
             </Box>
           )}
           {isWallectConnected && (
-            <Typography variant="body1">Owner wallet: {ownerWallet}</Typography>
+            <Typography variant={isSmallScreen ? "body2" : "body1"}>
+              Owner wallet: {ownerWallet}
+            </Typography>
           )}
           {isWallectConnected && isOwnerWallet && (
             <Box
